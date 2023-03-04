@@ -1,0 +1,27 @@
+.carousel-item > img{
+    width: 100%;
+}
+.carousel slide{
+    width: 100%;
+}
+.title{
+    line-height: 1;
+    letter-spacing: 0;
+}
+.heading{
+    font-size: 40px;
+    font-weight: 1000;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+}
+.footer-list{
+    list-style: none;
+    padding: 0;
+}
+.footer{
+    box-shadow: 0px 9px 8px #888, 0px 0px 5px #888;
+}
+.profile-pic{
+    margin-top: -62px;
+}
