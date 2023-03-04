@@ -21,3 +21,9 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+.idea/vcs.xml
+.idea/phpunit.xml
+.idea/php.xml
+.idea/OfferYard.iml
+.idea/OfferYard.iml
+.idea/vcs.xml
