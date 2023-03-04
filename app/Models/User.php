@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Classes\Enums\UserTypesEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,4 +42,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function userNotifications()
+    {
+        return $this->notifications()->where('user_type', UserTypesEnum::User);
+    }
+
+    public function adminNotifications()
+    {
+        return $this->notifications()->where('user_type', UserTypesEnum::Admin);
+    }
+
+    public function sellerNotifications()
+    {
+        return $this->notifications()->where('user_type', UserTypesEnum::Seller);
+    }
 }
