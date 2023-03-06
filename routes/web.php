@@ -46,3 +46,7 @@ Route::get('/codeverify', function () {
 Route::get('/forgetpassword', function () {
     return view('forgetpassword');
 });
+
+Auth::routes();
+
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
