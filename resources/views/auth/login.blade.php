@@ -80,15 +80,17 @@
 <div class="container" style="height:100vh;">
     <div class="row m-0 d-flex justify-content-center align-items-center" style="height:100vh;">
         <div class="col-md-6 bg-white shadow rounded p-5">
+            @include('admin.partials.sessionMessages')
             <h4 class="text-center">LOGIN SYSTEM</h4>
-            <form action="{{ route('login') }}">
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="form-group">
-                    <label for="email">Phone Number:</label>
-                    <input type="text" class="form-control" placeholder="+923 45328878" id="email">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control" placeholder="user@offeryard.com" id="email" name="email">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" placeholder="Enter password" id="pwd">
+                    <input type="password" class="form-control" placeholder="Enter password" id="pwd" name="password">
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">

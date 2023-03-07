@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,8 +13,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
-
+Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/category',[AdminController::class, 'category'])->name('category');
+    Route::post('/categoryPost',[AdminController::class, 'categoryPost'])->name('categoryPost');
+    Route::post('/destroyCategory',[AdminController::class, 'destroyCategory'])->name('destroyCategory');
+});
 ?>
 
