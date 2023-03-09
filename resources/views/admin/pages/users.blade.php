@@ -1,4 +1,4 @@
-@extends('admin.admin.app')
+{{--@extends('admin.admin.app')--}}
 @section('pageTitle')
     Category
 @endsection
@@ -50,7 +50,8 @@
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form method="post" action="{{route('admin.approvedProvider')}}">
+{{--                <form method="post" action="{{route('admin.approvedProvider')}}">--}}
+                <form method="post" action="#">
                     @csrf
                     <div class="modal-header" style="text-align: center;">
                         <h2 class="modal-title" id="myModalLabel">Approve</h2>
@@ -71,7 +72,8 @@
     <div class="modal fade modal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form method="post" action="{{route('admin.destroyUser')}}">
+{{--                <form method="post" action="{{route('admin.destroyUser')}}">--}}
+                <form method="post" action="#">
                     @csrf
                     <div class="modal-header" style="text-align: center;">
                         <h2 class="modal-title" id="myModalLabel">Delete</h2>

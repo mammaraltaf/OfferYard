@@ -17,7 +17,11 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'ad
     Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/category',[AdminController::class, 'category'])->name('category');
     Route::post('/categoryPost',[AdminController::class, 'categoryPost'])->name('categoryPost');
+    Route::get('/edit-category/{id}', [AdminController::class,'editCategory'])->name('editCategory');
+    Route::post('/edit-category/{id}', [AdminController::class,'updateCategory'])->name('updateCategory');
     Route::post('/destroyCategory',[AdminController::class, 'destroyCategory'])->name('destroyCategory');
+
+    Route::get('/users',[AdminController::class, 'users'])->name('users');
 });
 ?>
 

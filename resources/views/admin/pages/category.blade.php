@@ -36,21 +36,21 @@
                             <div class="form-group">
                                 <label class="control-label">Enter Category Name</label>
                                 <div>
-                                    <input type="text" name="category_name" placeholder="Enter Category Name"
+                                    <input type="text" name="title" placeholder="Enter Category Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
-                                <label class="control-label">Enter Category Priority</label>
+                                <label class="control-label">Category Image</label>
                                 <div>
-                                    <input type="number" name="category_priority" placeholder="Enter Category Priority"
-                                           class="form-control input-lg" required>
+                                    <input type="file" name="category_image" class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Category Status</label>
                                 <div>
-                                    <select class="form-select" name="category_status" id="category_status" aria-label="Default select example">
-                                        <option value="1" selected>Enable</option>
-                                        <option value="2">Disable</option>
+                                    <select class="form-select" name="status" id="status" aria-label="Default select example">
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}" selected>Enable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}" data-id="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
+
                                     </select>
                                 </div>
                             </div>
@@ -83,18 +83,17 @@
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
-                                <label class="control-label">Enter Category Priority</label>
+                                <label class="control-label">Category Image</label>
                                 <div>
-                                    <input type="number" name="category_priority" id="cat_priority" placeholder="Enter Category Priority"
-                                           class="form-control input-lg" required>
+                                    <input type="file" name="category_image" id="category_image" class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Category Status</label>
                                 <div>
                                         <select id="cat_status" class="form-control" name="cat_status" style="width: 100%; height:100%;" tabindex="-1" aria-hidden="true" required>
                                             <option selected="selected" name="" id="0" >--Select Status--</option>
-                                        <option value="1" data-id="1">Enable</option>
-                                        <option value="2" data-id="2">Disable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}">Enable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}" data-id="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
                                     </select>
                                 </div>
                             </div>
@@ -116,7 +115,6 @@
                 <thead>
                 <tr>
                     <th>Category</th>
-{{--                    <th>Priority</th>--}}
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -124,9 +122,8 @@
                 <tbody>
                 @foreach($categories as $category)
                     <tr>
-                        <td>{{$category->category_name}}</td>
-{{--                        <td>{{$category->category_priority}}</td>--}}
-                        <td><span class="{{$category->category_status == 1 ? 'badge badge-success' : 'badge badge-danger'}}">{{$category->category_status == 1 ? 'Enable' : 'Disable'}}</span></td>
+                        <td>{{$category->title}}</td>
+                        <td><span class="{{$category->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$category->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
 
                         <td><a href="" class="btn btn-primary btn-sm" id="categoryEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$category->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$category->id}}"
@@ -136,9 +133,7 @@
                 </tbody>
                 <tfoot>
                 <tr>
-{{--                    <th>id</th>--}}
                     <th>Category</th>
-{{--                    <th>Priority</th>--}}
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -149,16 +144,9 @@
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-{{--                {!! Form::open( array(--}}
-{{--                  'url' => route('admin.destroyCategory', array(), false),--}}
-{{--                  'method' => 'post',--}}
-{{--                  'role' => 'form' )) !!}--}}
-
                 <form method="post" action="{{route('admin.destroyCategory')}}">
                     @csrf
                 <div class="modal-header" style="text-align: center;">
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
-{{--                            aria-hidden="true">&times;</span></button>--}}
                     <h2 class="modal-title" id="myModalLabel">Delete</h2>
                 </div>
                 <div class="modal-body" style="text-align: center;">
@@ -171,8 +159,6 @@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
                 </form>
-{{--                {!! Form::close() !!}--}}
-
             </div>
         </div>
     </div>
@@ -198,9 +184,8 @@
                 success:function (response){
                     console.log(response);
                     $('#category_id').val(response.id);
-                    $('#category').val(response.category_name);
-                    $('#cat_priority').val(response.category_priority);
-                    $('#cat_status').prop('selectedIndex', response.category_status);
+                    $('#category').val(response.title);
+                    $('#cat_status').prop('selectedIndex', response.status);
                     $('#categoryFormEdit').attr('action',"{{url('/admin/edit-category/')}}"+'/'+category_id);
                 }
             });

@@ -52,6 +52,12 @@
                     </div>
 
                     <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed('admin.users') ? 'active' : '' }}" href="{{route('admin.users')}}" >
+                        <span class="menu-title">Manage Users</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.subCategory') ? 'active' : '' }}" href="{{route('admin.subCategory')}}" >--}}
                             <span class="menu-title">Manage Sub Category</span>
                         </a>
@@ -81,11 +87,7 @@
                         </a>
                     </div>
 
-                    <div class="menu-item">
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.users') ? 'active' : '' }}" href="{{route('admin.users')}}" >--}}
-                            <span class="menu-title">Manage Users</span>
-                        </a>
-                    </div>
+
 
                     <div class="menu-item">
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.providers') ? 'active' : '' }}" href="{{route('admin.providers')}}" >--}}
