@@ -8,7 +8,7 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Manage Sub Category</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Manage Brand</span>
         </h3>
 
     </div>
@@ -19,7 +19,7 @@
     <div class="card-body py-3">
         <div class="row">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
-                Add Sub Category
+                Add Brand
             </button>
         </div>
 
@@ -28,14 +28,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Add Sub Category</h1>
+                        <h1 class="modal-title">Add Brand</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('admin.subCategoryPost')}}"
+                        <form id="categoryForm" method="POST" action="{{route('admin.brandPost')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label class="control-label">Enter Sub Category Name</label>
+                                <label class="control-label">Enter Brand Name</label>
                                 <div>
                                     <input type="text" name="subcategory_name" placeholder="Enter Category Name"
                                            class="form-control input-lg" required>
@@ -51,7 +51,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label class="control-label">Select Sub Category Status</label>
+                                <label class="control-label">Select Brand Status</label>
                                 <div>
                                     <select class="form-select" name="subcategory_status" aria-label="Default select example">
                                         <option selected>Select Status</option>
@@ -60,7 +60,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label class="control-label">Sub Category Image</label>
+                                <label class="control-label">Brand Image</label>
                                 <div class="form-group">
                                     <div>
                                         <input type="hidden" name="imageName" value="">
@@ -75,7 +75,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add Sub Category</button>
+                                    <button type="submit" class="btn btn-success">Add Brand</button>
                                 </div>
                             </div>
                         </form>
@@ -88,14 +88,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Edit Sub Category</h1>
+                        <h1 class="modal-title">Edit Brand</h1>
                     </div>
                     <div class="modal-body">
                         <form id="categoryFormEdit" method="POST" action="" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="sub_category_id" id="sub_category_id">
                             <div class="form-group">
-                                <label class="control-label">Enter Sub Category Name</label>
+                                <label class="control-label">Enter Brand Name</label>
                                 <div>
                                     <input type="text" name="subcategory_name" id="subcategory_name" placeholder="Enter Category Name"
                                            class="form-control input-lg" required>
@@ -111,7 +111,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label class="control-label">Select Sub Category Status</label>
+                                <label class="control-label">Select Brand Status</label>
                                 <div>
                                     <select class="form-select" name="subcategory_status" id="subcategory_status" aria-label="Default select example">
                                         <option selected>Select Status</option>
@@ -120,7 +120,7 @@
                                     </select>
                                 </div>
                                 <br>
-                                <label class="control-label">Sub Category Image</label>
+                                <label class="control-label">Brand Image</label>
                                 <div>
                                     <div class="form-group">
                                         <div>
@@ -137,7 +137,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Update Sub Category</button>
+                                    <button type="submit" class="btn btn-success">Update Brand</button>
                                 </div>
                             </div>
                         </form>
@@ -151,7 +151,7 @@
             <table id="categoryTable" name="categoryTable" class="table table-striped table-bordered dt-responsive nowrap allTable" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Sub Category</th>
+                    <th>Brand</th>
                     <th>Category</th>
                     <th>Picture</th>
                     <th>Status</th>
@@ -159,22 +159,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($subCategories as $subcategory)
+                @foreach($brands as $brand)
                     <tr>
-                        <td>{{$subcategory->subcategory_name}}</td>
-                        <td>{{$subcategory->category->category_name}}</td>
-                        <td><img src="{{$subcategory->subcategory_image}}" alt="" style="height: 50px;"></td>
-                        <td><span class="{{$subcategory->subcategory_status == 1 ? 'badge badge-success' : 'badge badge-danger'}}">{{$subcategory->subcategory_status == 1 ? 'Enable' : 'Disable'}}</span></td>
+                        <td>{{$brand->title}}</td>
+                        <td>{{$brand->category->title}}</td>
+                        <td><img src="{{$brand->image}}" alt="" style="height: 50px;"></td>
+                        <td><span class="{{$brand->status == 1 ? 'badge badge-success' : 'badge badge-danger'}}">{{$brand->status == 1 ? 'Enable' : 'Disable'}}</span></td>
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="categoryEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$subcategory->id}}">Edit</a>
-                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$subcategory->id}}"
+                        <td><a href="" class="btn btn-primary btn-sm" id="categoryEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$brand->id}}">Edit</a>
+                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$brand->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                     </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th>Sub Category</th>
+                    <th>Brand</th>
                     <th>Category</th>
                     <th>Picture</th>
                     <th>Status</th>
@@ -192,7 +192,7 @@
                 {{--                  'method' => 'post',--}}
                 {{--                  'role' => 'form' )) !!}--}}
 
-                <form method="post" action="{{route('admin.destroySubCategory')}}">
+                <form method="post" action="{{route('admin.destroyBrand')}}">
                     @csrf
                     <div class="modal-header" style="text-align: center;">
                         {{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}

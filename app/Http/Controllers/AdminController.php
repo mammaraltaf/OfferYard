@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Enums\StatusEnum;
+use App\Classes\Enums\UserTypesEnum;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,11 +16,15 @@ class AdminController extends Controller
         $this->middleware(['auth', 'admin']);
     }
 
+    /*---------------DASHBOARD------------------*/
     /*After Admin Login We See this dashboard view*/
     public function dashboard()
     {
-        return view('admin.pages.dashboard');
+        $totalUsers = User::where('user_type', UserTypesEnum::User)->count();
+        return view('admin.pages.dashboard',compact('totalUsers'));
     }
+
+    /*---------------CATEGORY CRUD------------------*/
 
     /*After Admin Login We See this category view*/
     public function category()
@@ -117,11 +124,182 @@ class AdminController extends Controller
     }
 
 
-
+    /*---------------USER CRUD------------------*/
     public function users()
     {
-        $users = User::all();
+        $users = User::where('user_type', UserTypesEnum::User)->get();
         return view('admin.pages.users',compact('users'));
+    }
+
+    public function userPost(Request $request){
+        try{
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'phone' => 'required',
+                'status' => 'required',
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            $data = User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => \Hash::make($input['password']),
+                'phone' => $input['phone'],
+                'user_type' => UserTypesEnum::User,
+                'status' => $input['status'],
+            ]);
+
+            return redirect()->back()->with('success', 'User Added Successfully');
+
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editUser($id)
+    {
+        $user = User::find($id);
+        return $user;
+    }
+
+    public function updateUser(Request $request){
+        try {
+            $input = $request->all();
+            $userId = $input['user_id'];
+            $validation = \Validator::make($input, [
+                'name' => 'required',
+                'phone' => 'required',
+                'status' => 'required',
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->with('error', $validation->errors());
+            }
+
+            User::where('id', $userId)->update([
+                'name' => $input['name'],
+                'phone' => $input['phone'],
+                'status' => $input['status'],
+            ]);
+            return redirect()->back()->with('success', 'User Updated Successfully!');
+        } catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function destroyUser(Request $request)
+    {
+        try{
+            User::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'User Deleted Successfully!');
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    /*---------------BRAND CRUD------------------*/
+    public function brands()
+    {
+        $brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.pages.brand',compact('brands','categories'));
+    }
+
+    public function brandPost(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'title' => 'required',
+                'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'status' => 'required',
+            ]);
+
+            if ($validation->fails()) {
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            if ($request->hasFile('brand_image')) {
+                $image = $request->file('brand_image');
+                $name = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('brand_images');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $name);
+            }
+
+            $brand = new Brand();
+            $brand->title = $input['title'];
+            $brand->image = $name;
+            $brand->status = $input['status'];
+            $brand->save();
+
+            return redirect()->back()->with('success', 'Brand Added Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editBrand($id)
+    {
+        $brand = Brand::find($id);
+        return $brand;
+    }
+
+    public function updateBrand(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $brandId = $input['brand_id'];
+            $validation = \Validator::make($input, [
+                'title' => 'required',
+                'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'status' => 'required',
+            ]);
+
+            if ($validation->fails()) {
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            if ($request->hasFile('brand_image')) {
+                $image = $request->file('brand_image');
+                $name = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('brand_images');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $name);
+            }
+
+            Brand::where('id', $brandId)->update([
+                'title' => $input['title'],
+                'image' => $name,
+                'status' => $input['status'],
+            ]);
+            return redirect()->back()->with('success', 'Brand Updated Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function destroyBrand(Request $request)
+    {
+        try {
+            Brand::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Brand Deleted Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 }
