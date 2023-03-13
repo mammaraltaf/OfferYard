@@ -221,6 +221,7 @@ class AdminController extends Controller
             $validation = \Validator::make($input, [
                 'title' => 'required',
                 'brand_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'category_id' => 'required',
                 'status' => 'required',
             ]);
 
@@ -241,6 +242,7 @@ class AdminController extends Controller
             $brand = new Brand();
             $brand->title = $input['title'];
             $brand->image = $name;
+            $brand->category_id = $input['category_id'];
             $brand->status = $input['status'];
             $brand->save();
 

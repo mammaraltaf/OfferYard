@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="control-label">Enter Brand Name</label>
                                 <div>
-                                    <input type="text" name="subcategory_name" placeholder="Enter Category Name"
+                                    <input type="text" name="title" placeholder="Enter Brand Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
@@ -46,26 +46,26 @@
                                     <select class="form-select" name="category_id" aria-label="Default select example">
                                         <option selected>Select Category</option>
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Brand Status</label>
                                 <div>
-                                    <select class="form-select" name="subcategory_status" aria-label="Default select example">
+                                    <select class="form-select" name="status" aria-label="Default select example">
                                         <option selected>Select Status</option>
-                                        <option value="1" selected>Enable</option>
-                                        <option value="2">Disable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" selected>Enable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
                                     </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Brand Image</label>
                                 <div class="form-group">
                                     <div>
-                                        <input type="hidden" name="imageName" value="">
-                                        <img id="img-preview" src="{{asset('public/images/photo1.png')}}" alt="" style="height: 150px; display: block;">
-                                        <input style="width: 120px; opacity: 0.01; cursor: pointer;" id="file1" type="file" class="form-control" name="subcategory_image" value="" />
+                                        <input type="hidden" name="brand_image" value="">
+                                        <img id="img-preview" src="{{asset('images/photo1.png')}}" alt="" style="height: 150px; display: block;">
+                                        <input style="width: 120px; opacity: 0.01; cursor: pointer;" id="file1" type="file" class="form-control" name="brand_image" value="" />
                                         <label style="margin-top: -30px; padding: 7px; background: #1ab394; width: 120px; padding-left: 15px; color: white; display: block;">Upload Image</label>
                                         {{--                                    <input type="file" name="image" id="editImage" class="form-control input-lg" required>--}}
                                     </div>
@@ -93,11 +93,11 @@
                     <div class="modal-body">
                         <form id="categoryFormEdit" method="POST" action="" enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="sub_category_id" id="sub_category_id">
+                            <input type="hidden" name="brand_id" id="brand_id">
                             <div class="form-group">
                                 <label class="control-label">Enter Brand Name</label>
                                 <div>
-                                    <input type="text" name="subcategory_name" id="subcategory_name" placeholder="Enter Category Name"
+                                    <input type="text" name="title" id="title" placeholder="Enter Category Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
@@ -106,17 +106,17 @@
                                     <select class="form-select" id="category_id" name="category_id" aria-label="Default select example">
                                         <option selected>Select Category</option>
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->category_name}}</option>
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Brand Status</label>
                                 <div>
-                                    <select class="form-select" name="subcategory_status" id="subcategory_status" aria-label="Default select example">
+                                    <select class="form-select" name="status" id="status" aria-label="Default select example">
                                         <option selected>Select Status</option>
-                                        <option value="1" selected>Enable</option>
-                                        <option value="2">Disable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" selected>Enable</option>
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
                                     </select>
                                 </div>
                                 <br>
@@ -126,7 +126,7 @@
                                         <div>
                                             <input type="hidden" name="imageName" value="">
                                             <img id="img-preview-edit" src="" alt="" style="height: 150px; display: block;">
-                                            <input style="width: 120px; opacity: 0.01; cursor: pointer;" id="file2" type="file" class="form-control" name="subcategory_image" value="" />
+                                            <input style="width: 120px; opacity: 0.01; cursor: pointer;" id="file2" type="file" class="form-control" name="brand_image" value="" />
                                             <label style="margin-top: -30px; padding: 7px; background: #1ab394; width: 120px; padding-left: 15px; color: white; display: block;">Change Image</label>
                                             {{--                                    <input type="file" name="image" id="editImage" class="form-control input-lg" required>--}}
                                         </div>
@@ -231,18 +231,20 @@
             $('#categoryTable').DataTable();
         });
         $('body').on('click', '#categoryEdit', function () {
-            var sub_category_id = $(this).data('id');
+            var brand_id = $(this).data('id');
+            var url = '{{ URL::asset('/brand_images/') }}'
             $.ajax({
                 type: "GET",
-                url: "{{url('/admin/edit-sub-category/')}}"+'/'+sub_category_id,
+                url: "{{url('/admin/edit-brand/')}}"+'/'+brand_id,
                 success:function (response){
-                    console.log(response);
-                    $('#sub_category_id').val(response.id);
-                    $('#subcategory_name').val(response.subcategory_name);
+                    // console.log(response);
+
+                    $('#brand_id').val(response.id);
+                    $('#title').val(response.title);
                     $('#category_id').prop('selectedIndex', response.category_id);
-                    $('#subcategory_status').prop('selectedIndex', response.subcategory_status);
-                    $('#img-preview-edit').attr('src', response.subcategory_image);
-                    $('#categoryFormEdit').attr('action',"{{url('/admin/edit-sub-category/')}}"+'/'+sub_category_id);
+                    $('#status').prop('selectedIndex', response.status);
+                    $('#img-preview-edit').attr('src', url + '/' + response.image);
+                    $('#categoryFormEdit').attr('action',"{{url('/admin/edit-sub-category/')}}"+'/'+brand_id);
                 }
             });
         });
