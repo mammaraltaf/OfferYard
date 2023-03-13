@@ -64,70 +64,70 @@
                     </div>
 
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}
-                            <span class="menu-title">Manage Services</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Services</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.serviceQuestions') ? 'active' : '' }}" href="{{route('admin.serviceQuestions')}}" >--}}
-                            <span class="menu-title">Manage Service Question</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Service Question</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.requests') ? 'active' : '' }}" href="{{route('admin.requests')}}" >--}}
-                            <span class="menu-title">Manage Requests</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Requests</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.requestPool') ? 'active' : '' }}" href="{{route('admin.requestPool')}}" >--}}
-                            <span class="menu-title">Request Pool</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Request Pool</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
 
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.providers') ? 'active' : '' }}" href="{{route('admin.providers')}}" >--}}
-                            <span class="menu-title">Manage Providers</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Providers</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.orders') ? 'active' : '' }}" href="{{route('admin.orders')}}" >--}}
-                            <span class="menu-title">Manage Orders</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Orders</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.contactUs') ? 'active' : '' }}" href="{{route('admin.contactUs')}}" >--}}
-                            <span class="menu-title">Manage Contact Us</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Contact Us</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="dropdown">
+{{--                    <div class="dropdown">--}}
 
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.termsAndConditions') ? 'active' : '' }}" href="{{route('admin.termsAndConditions')}}" >--}}
-                            <span class="menu-title">Manage Terms and Conditions</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Terms and Conditions</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.privacyPolicy') ? 'active' : '' }}" href="{{route('admin.privacyPolicy')}}" >--}}
-                            <span class="menu-title">Manage Privacy Policy</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Privacy Policy</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
 
-                    <div class="menu-item">
+{{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.refundPolicy') ? 'active' : '' }}" href="{{route('admin.refundPolicy')}}" >--}}
-                            <span class="menu-title">Manage Refund Policy</span>
-                        </a>
-                    </div>
+{{--                            <span class="menu-title">Manage Refund Policy</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                     </div>
             </div>
             <!--end::Menu-->
