@@ -63,6 +63,18 @@
                         </a>
                     </div>
 
+                    <div class="menu-item">
+                        <a class="menu-link" href="./models" >
+                        <span class="menu-title">Manage Models</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link" href="./offers" >
+                        <span class="menu-title">Manage Offers</span>
+                        </a>
+                    </div>
+
 
 {{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}

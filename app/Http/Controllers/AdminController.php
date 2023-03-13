@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\modeldb;
+use App\Models\Offer;
 
 class AdminController extends Controller
 {
@@ -302,6 +304,19 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+
+    public function modellist()
+    {
+        $models = modeldb::all();
+        return view('admin.pages.modeldata',compact('models'));
+    }
+
+    public function offers()
+    {
+        $offers = Offer::all();
+        return view('admin.pages.offer',compact('offers'));
     }
 
 }
