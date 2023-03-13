@@ -84,7 +84,7 @@
 <div class="container" style="height:100vh;">
     <div class="row m-0 d-flex justify-content-center align-items-center" style="height:100vh;">
         <div class="col-md-6 bg-white shadow rounded p-5">
-            @include('sessionMessages')
+            @include('admin.partials.sessionMessages')
             <h4 class="text-center">REGISTRATION</h4>
             <form action="{{ route('register') }}" method="POST">
                 @csrf
