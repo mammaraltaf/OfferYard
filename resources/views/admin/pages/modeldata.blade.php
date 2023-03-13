@@ -27,13 +27,34 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Add Model Name</h1>
+                        <h1 class="modal-title">Add Model</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('admin.categoryPost')}}"
+                        <form id="categoryForm" method="POST" action="{{route('admin.modelPost')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
+                                <label class="control-label">Select Category</label>
+                                <div>
+                                    <select class="form-select" name="category_id" id="category_id" aria-label="Default select example">
+                                        <option selected>Select Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Select Brand</label>
+                                <div>
+{{--                                    <select class="form-select" name="brand_id" id="brand_id" aria-label="Default select example" disabled>--}}
+{{--                                    </select>--}}
+                                    <select class="form-control" id="brand_id" name="brand_id"></select>
+
+                                </div>
+                                <br>
+
+
                                 <label class="control-label">Enter Model Name</label>
                                 <div>
                                     <input type="text" name="title" placeholder="Enter Model Name"
@@ -70,30 +91,51 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Edit Model Name</h1>
+                        <h1 class="modal-title">Edit Model</h1>
                     </div>
                     <div class="modal-body">
                         <form id="categoryFormEdit" method="POST" action="" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="category_id" id="category_id">
                             <div class="form-group">
+                                <label class="control-label">Select Category</label>
+                                <div>
+                                    <select class="form-select" name="category_id" id="category_id" aria-label="Default select example">
+                                        <option selected>Select Category</option>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Select Brand</label>
+                                <div>
+                                    {{--                                    <select class="form-select" name="brand_id" id="brand_id" aria-label="Default select example" disabled>--}}
+                                    {{--                                    </select>--}}
+                                    <select class="form-control" id="brand_id" name="brand_id"></select>
+
+                                </div>
+                                <br>
+
+
                                 <label class="control-label">Enter Model Name</label>
                                 <div>
-                                    <input type="text" name="category" id="category" placeholder="Enter Category Name"
+                                    <input type="text" name="title" placeholder="Enter Model Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Model Image</label>
                                 <div>
-                                    <input type="file" name="category_image" id="category_image" class="form-control input-lg" required>
+                                    <input type="file" name="model_image" class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Model Status</label>
                                 <div>
-                                        <select id="cat_status" class="form-control" name="cat_status" style="width: 100%; height:100%;" tabindex="-1" aria-hidden="true" required>
-                                            <option selected="selected" name="" id="0" >--Select Status--</option>
-                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}">Enable</option>
+                                    <select class="form-select" name="status" id="status" aria-label="Default select example">
+                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}" selected>Enable</option>
                                         <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}" data-id="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
+
                                     </select>
                                 </div>
                             </div>
@@ -114,7 +156,9 @@
             <table id="categoryTable" name="categoryTable" class="table table-striped table-bordered dt-responsive nowrap allTable" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Model</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Brand</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -123,6 +167,8 @@
                 @foreach($models as $model)
                     <tr>
                         <td>{{$model->title}}</td>
+                        <td>{{$model->category->title}}</td>
+                        <td>{{$model->brand->title}}</td>
                         <td><span class="{{$model->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$model->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
 
                         <td><a href="" class="btn btn-primary btn-sm" id="modelEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$model->id}}">Edit</a>
@@ -133,7 +179,9 @@
                 </tbody>
                 <tfoot>
                 <tr>
+                    <th>Title</th>
                     <th>Category</th>
+                    <th>Brand</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -176,6 +224,28 @@
         $(document).ready(function () {
             $('#categoryTable').DataTable();
         });
+
+        $('#category_id').on('change', function() {
+            var category_id = $(this).val();
+            if(category_id) {
+                $.ajax({
+                    url: '/admin/get-brands/'+category_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#brand_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#brand_id').append('<option value="'+value.id+'">'+value.title+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#brand_id').empty();
+            }
+        });
+
+
+
         $('body').on('click', '#categoryEdit', function () {
             var category_id = $(this).data('id');
             $.ajax({

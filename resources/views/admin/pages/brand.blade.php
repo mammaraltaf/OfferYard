@@ -33,6 +33,7 @@
                     <div class="modal-body">
                         <form id="categoryForm" method="POST" action="{{route('admin.brandPost')}}"
                               enctype="multipart/form-data">
+
                             @csrf
                             <div class="form-group">
                                 <label class="control-label">Enter Brand Name</label>

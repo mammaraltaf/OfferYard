@@ -64,13 +64,13 @@
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link" href="./models" >
+                        <a class="menu-link {{ Route::currentRouteNamed('admin.models') ? 'active' : '' }}" href="{{route('admin.models')}}" >
                         <span class="menu-title">Manage Models</span>
                         </a>
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link" href="./offers" >
+                        <a class="menu-link {{ Route::currentRouteNamed('admin.offers') ? 'active' : '' }}" href="{{route('admin.offers')}}" >
                         <span class="menu-title">Manage Offers</span>
                         </a>
                     </div>

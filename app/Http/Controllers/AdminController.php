@@ -6,6 +6,7 @@ use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Moddel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\modeldb;
@@ -306,11 +307,119 @@ class AdminController extends Controller
         }
     }
 
-
-    public function modellist()
+    /*-----------MODEL CRUD-----------------*/
+    public function models()
     {
-        $models = modeldb::all();
-        return view('admin.pages.modeldata',compact('models'));
+        $models = Moddel::all();
+        $categories = Category::all();
+        return view('admin.pages.modeldata',compact('models','categories'));
+    }
+
+    public function getBrands($category_id)
+    {
+        $brands = Brand::where('category_id', $category_id)->get();
+        return response()->json($brands);
+    }
+
+
+    public function modelPost(Request $request){
+        try{
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'category_id' => 'required',
+                'brand_id' => 'required',
+                'title' => 'required',
+                'status' => 'required',
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            if ($request->hasFile('model_image')) {
+                $image = $request->file('model_image');
+                $name = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('model_images');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $name);
+            }
+            else{
+                $name = null;
+            }
+
+            Moddel::create([
+                'category_id' => $input['category_id'],
+                'brand_id' => $input['brand_id'],
+                'title' => $input['title'],
+                'image' => $name,
+                'status' => $input['status'],
+            ]);
+
+            return redirect()->back()->with('success', 'Model Added Successfully');
+
+        }
+        catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editModel($id)
+    {
+        $model = Moddel::find($id);
+        return $model;
+    }
+
+    public function updateModel(Request $request){
+        try {
+            $input = $request->all();
+            $modelId = $input['model_id'];
+            $validation = \Validator::make($input, [
+                'category_id' => 'required',
+                'brand_id' => 'required',
+                'title' => 'required',
+                'status' => 'required',
+            ]);
+
+            if ($validation->fails()) {
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            if ($request->hasFile('model_image')) {
+                $image = $request->file('model_image');
+                $name = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $path = public_path('model_images');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $image->move($path, $name);
+            }
+            else{
+                $name = null;
+            }
+
+            Moddel::where('id', $modelId)->update([
+                'category_id' => $input['category_id'],
+                'brand_id' => $input['brand_id'],
+                'title' => $input['title'],
+                'image' => $name,
+                'status' => $input['status'],
+            ]);
+            return redirect()->back()->with('success', 'Model Updated Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function destroyModel(Request $request)
+    {
+        try {
+            Moddel::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Model Deleted Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function offers()

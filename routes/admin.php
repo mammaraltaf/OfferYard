@@ -37,16 +37,20 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'ad
     Route::post('/delete-brand',[AdminController::class, 'destroyBrand'])->name('destroyBrand');
 
     /*Models*/
-    Route::get('/models', [AdminController::class, 'modellist'])->name('models');
-    //Route::post('/add-brand',[AdminController::class, 'brandPost'])->name('brandPost');
-    //Route::get('/edit-brand/{id}', [AdminController::class,'editBrand'])->name('editBrand');
-    //Route::post('/edit-brand/{id}', [AdminController::class,'updateBrand'])->name('updateBrand');
-    //Route::post('/delete-brand',[AdminController::class, 'destroyBrand'])->name('destroyBrand');
+    Route::get('/models', [AdminController::class, 'models'])->name('models');
+    Route::get('/get-brands/{category_id}', [AdminController::class, 'getBrands'])->name('getBrands');
+    Route::post('/add-model',[AdminController::class, 'modelPost'])->name('modelPost');
+    Route::get('/edit-model/{id}', [AdminController::class,'editModel'])->name('editModel');
+    Route::post('/edit-model/{id}', [AdminController::class,'updateModel'])->name('updateModel');
+    Route::post('/delete-model',[AdminController::class, 'destroyModel'])->name('destroyModel');
 
 
-    /*Models*/
+    /*Offers*/
     Route::get('/offers', [AdminController::class, 'offers'])->name('offers');
-
+    Route::post('/add-offer',[AdminController::class, 'offerPost'])->name('offerPost');
+    Route::get('/edit-offer/{id}', [AdminController::class,'editOffer'])->name('editOffer');
+    Route::post('/edit-offer/{id}', [AdminController::class,'updateOffer'])->name('updateOffer');
+    Route::post('/delete-offer',[AdminController::class, 'destroyOffer'])->name('destroyOffer');
 });
 ?>
 
