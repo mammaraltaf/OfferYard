@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ModelsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,17 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'ad
     Route::get('/edit-brand/{id}', [AdminController::class,'editBrand'])->name('editBrand');
     Route::post('/edit-brand/{id}', [AdminController::class,'updateBrand'])->name('updateBrand');
     Route::post('/delete-brand',[AdminController::class, 'destroyBrand'])->name('destroyBrand');
+
+    /*Models*/
+    Route::get('/models', [AdminController::class, 'modellist'])->name('models');
+    //Route::post('/add-brand',[AdminController::class, 'brandPost'])->name('brandPost');
+    //Route::get('/edit-brand/{id}', [AdminController::class,'editBrand'])->name('editBrand');
+    //Route::post('/edit-brand/{id}', [AdminController::class,'updateBrand'])->name('updateBrand');
+    //Route::post('/delete-brand',[AdminController::class, 'destroyBrand'])->name('destroyBrand');
+
+
+    /*Models*/
+    Route::get('/offers', [AdminController::class, 'offers'])->name('offers');
 
 });
 ?>
