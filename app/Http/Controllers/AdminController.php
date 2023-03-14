@@ -7,6 +7,8 @@ use App\Classes\Enums\UserTypesEnum;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Moddel;
+use App\Models\OfferImage;
+use App\Models\PurchaseYear;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\modeldb;
@@ -307,6 +309,75 @@ class AdminController extends Controller
         }
     }
 
+    /*-----------PURCHASING YEAR CRUD-----------------*/
+
+    public function purchasingYear()
+    {
+        $purchasingYears = PurchaseYear::all();
+        return view('admin.pages.purchasingyear',compact('purchasingYears'));
+    }
+
+    public function purchasingYearPost(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'year' => 'required | max:4 | min:4 | unique:purchase_years,year'
+            ]);
+
+            if ($validation->fails()) {
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            PurchaseYear::create([
+                'year' => $input['year'],
+            ]);
+
+            return redirect()->back()->with('success', 'Purchasing Year Added Successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editPurchasingYear($id)
+    {
+        $purchasingYear = PurchaseYear::find($id);
+        return $purchasingYear;
+    }
+
+    public function updatePurchasingYear(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $purchasingYearId = $input['year_id'];
+            $validation = \Validator::make($input, [
+                'year' => 'required | unique:purchase_years,year',
+            ]);
+
+            if ($validation->fails()) {
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            PurchaseYear::where('id', $purchasingYearId)->update([
+                'year' => $input['year'],
+            ]);
+            return redirect()->back()->with('success', 'Purchasing Year Updated Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function destroyPurchasingYear(Request $request)
+    {
+        try {
+            PurchaseYear::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Purchasing Year Deleted Successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
     /*-----------MODEL CRUD-----------------*/
     public function models()
     {
@@ -321,6 +392,11 @@ class AdminController extends Controller
         return response()->json($brands);
     }
 
+    public function getModel($brand_id)
+    {
+        $models = Moddel::where('brand_id', $brand_id)->get();
+        return response()->json($models);
+    }
 
     public function modelPost(Request $request){
         try{
@@ -422,10 +498,80 @@ class AdminController extends Controller
         }
     }
 
+    /*-----------OFFERS CRUD-----------------*/
     public function offers()
     {
         $offers = Offer::all();
-        return view('admin.pages.offer',compact('offers'));
+        $categories = Category::all();
+        $purchaseYears = PurchaseYear::all();
+        return view('admin.pages.offer',compact('offers','categories','purchaseYears'));
+    }
+
+    public function offerPost(Request $request)
+    {
+        try{
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'title' => 'required',
+                'category' => 'required | exists:categories,id',
+                'brand' => 'required | exists:brands,id',
+                'moddel' => 'required | exists:moddels,id',
+                'purchase_year' => 'required | exists:purchase_years,id',
+                'price' => 'required',
+                'auction_date' => 'required',
+                'isPriceFixed' => 'required',
+                'activeCommentSection' => 'required',
+                'is_hand_to_hand' => 'required',
+                'is_shipping_to_buyer' => 'required',
+                'is_show_location_product' => 'required',
+                'address' => 'required',
+                'status' => 'required',
+                'offer_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            $offerId = Offer::create([
+                'title' => $input['title'],
+                'category_id' => $input['category'],
+                'brand_id' => $input['brand'],
+                'moddel_id' => $input['moddel'],
+                'purchase_year_id' => $input['purchase_year'],
+                'price' => $input['price'],
+                'auction_date' => $input['auction_date'],
+                'isPriceFixed' => $input['isPriceFixed'],
+                'activeCommentSection' => $input['activeCommentSection'],
+                'is_hand_to_hand' => $input['is_hand_to_hand'],
+                'is_shipping_to_buyer' => $input['is_shipping_to_buyer'],
+                'is_show_location_product' => $input['is_show_location_product'],
+                'address' => $input['address'],
+                'status' => $input['status'],
+            ]);
+
+            if ($request->hasFile('offer_image')){
+                foreach ($request->file('offer_image') as $image) {
+                    $name = time() . '-' . uniqid() . '.' . $image->getClientOriginalExtension();
+                    $path = public_path('offer_images');
+                    if (!file_exists($path)) {
+                        mkdir($path, 0777, true);
+                    }
+                    $image->move($path, $name);
+
+                    OfferImage::create([
+                        'offer_id' => $offerId->id,
+                        'image' => $name,
+                    ]);
+                }
+
+            }
+
+            return redirect()->back()->with('success', 'Offer Added Successfully');
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 }

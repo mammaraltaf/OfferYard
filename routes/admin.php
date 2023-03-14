@@ -36,14 +36,23 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'ad
     Route::post('/edit-brand/{id}', [AdminController::class,'updateBrand'])->name('updateBrand');
     Route::post('/delete-brand',[AdminController::class, 'destroyBrand'])->name('destroyBrand');
 
+    /*Purchasing Year*/
+    Route::get('/purchasing-year',[AdminController::class, 'purchasingYear'])->name('purchasingYear');
+    Route::post('/add-purchasing-year',[AdminController::class, 'purchasingYearPost'])->name('purchasingYearPost');
+    Route::get('/edit-purchasing-year/{id}', [AdminController::class,'editPurchasingYear'])->name('editPurchasingYear');
+    Route::post('/edit-purchasing-year/{id}', [AdminController::class,'updatePurchasingYear'])->name('updatePurchasingYear');
+    Route::post('/delete-purchasing-year',[AdminController::class, 'destroyPurchasingYear'])->name('destroyPurchasingYear');
+
     /*Models*/
     Route::get('/models', [AdminController::class, 'models'])->name('models');
-    Route::get('/get-brands/{category_id}', [AdminController::class, 'getBrands'])->name('getBrands');
     Route::post('/add-model',[AdminController::class, 'modelPost'])->name('modelPost');
     Route::get('/edit-model/{id}', [AdminController::class,'editModel'])->name('editModel');
     Route::post('/edit-model/{id}', [AdminController::class,'updateModel'])->name('updateModel');
     Route::post('/delete-model',[AdminController::class, 'destroyModel'])->name('destroyModel');
 
+    /*Ajax calls for getting brands and models based on id*/
+    Route::get('/get-brands/{category_id}', [AdminController::class, 'getBrands'])->name('getBrands');
+    Route::get('/get-models/{brand_id}', [AdminController::class, 'getModel'])->name('getModel');
 
     /*Offers*/
     Route::get('/offers', [AdminController::class, 'offers'])->name('offers');

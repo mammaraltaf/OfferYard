@@ -34,71 +34,129 @@
                         <h1 class="modal-title">Add Offer Name</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('admin.categoryPost')}}"
+                        <form id="categoryForm" method="POST" action="{{route('admin.offerPost')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label class="control-label">Enter Offer Name</label>
                                 <div>
-                                    <input type="text" name="title" placeholder="Enter Name Name"
+                                    <input type="text" name="title" placeholder="Enter Offer Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Category</label>
                                 <div>
-                                    <select class="form-control" name="category" id="categoryid">
-                                        <option value="Category1">Category 1</option>
-                                        <option value="Category2">Category 2</option>
-                                        <option value="Category3">Category 3</option>
-                                        <option value="Category4">Category 4</option>
+                                    <select class="form-control" name="category" id="categoryid" required>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Brand</label>
                                 <div>
-                                    <select class="form-control" name="brand" id="brandid">
-                                        <option value="Brand1">Brand 1</option>
-                                        <option value="Brand2">Brand 2</option>
-                                        <option value="Brand3">Brand 3</option>
-                                        <option value="Brand4">Brand 4</option>
+                                    <select class="form-control" name="brand" id="brandid" required>
+                                    </select>
+                                </div>
+                                <br>
+                                <label class="control-label">Model</label>
+                                <div>
+                                    <select class="form-control" name="moddel" id="modelid" required>
+                                    </select>
+                                </div>
+                                <br>
+                                <label class="control-label">Purchasing Year</label>
+                                <div>
+                                    <select class="form-control" name="purchase_year" id="purchase_year" required>
+                                        @foreach($purchaseYears as $purchaseYear)
+                                            <option value="{{$purchaseYear->id}}">{{$purchaseYear->year}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Price</label>
                                 <div>
-                                    <input type="text" name="price" placeholder="Enter Price here" class="form-control input-lg" required>
+                                    <input type="number" name="price" placeholder="Enter Price here" class="form-control input-lg" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Auction End Date</label>
                                 <div>
-                                    <input type="date" name="auctiondate" class="form-control input-lg" required>
+                                    <input type="date" name="auction_date" class="form-control input-lg" min="<?php echo date('Y-m-d'); ?>" required>
                                 </div>
                                 <br>
-                                <label class="control-label">Active Comment</label>
+                                <label class="control-label">The Price is Fixed</label>
                                 <div class="row m-0">
                                     <div class="form-check" style="width:auto;">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                                        <label class="form-check-label" for="exampleRadios1">Active</label>
+                                        <input class="form-check-input" type="radio" name="isPriceFixed" id="isPriceFixed1" value="{{\App\Classes\Enums\StatusEnum::Active}}" checked>
+                                        <label class="form-check-label" for="isPriceFixed1">Active</label>
                                     </div>
                                     <div class="form-check" style="width:auto;">
-                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                        <label class="form-check-label" for="exampleRadios2">Inactive</label>
+                                        <input class="form-check-input" type="radio" name="isPriceFixed" id="isPriceFixed2" value="{{\App\Classes\Enums\StatusEnum::Inactive}}">
+                                        <label class="form-check-label" for="isPriceFixed2">Inactive</label>
                                     </div>
                                 </div>
                                 <br>
-                                <label class="control-label">Address</label>
-                                <div>
-                                    <input type="text" name="auctiondate" class="form-control input-lg" placeholder="Enter Address" required>
+
+                                <label class="control-label">Active Comment Section</label>
+                                <div class="row m-0">
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="activeCommentSection" id="activeCommentSection1" value="{{\App\Classes\Enums\StatusEnum::Active}}" checked>
+                                        <label class="form-check-label" for="activeCommentSection1">Active</label>
+                                    </div>
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="activeCommentSection" id="activeCommentSection2" value="{{\App\Classes\Enums\StatusEnum::Inactive}}">
+                                        <label class="form-check-label" for="activeCommentSection2">Inactive</label>
+                                    </div>
                                 </div>
                                 <br>
-                                <label class="control-label">Latitude & Longitude</label>
+
+                                <label class="control-label">Show Location of Product</label>
+                                <div class="row m-0">
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_show_location_product" id="is_show_location_product1" value="{{\App\Classes\Enums\StatusEnum::Active}}" checked>
+                                        <label class="form-check-label" for="is_show_location_product1">Active</label>
+                                    </div>
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_show_location_product" id="is_show_location_product2" value="{{\App\Classes\Enums\StatusEnum::Inactive}}">
+                                        <label class="form-check-label" for="is_show_location_product2">Inactive</label>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Hand to Hand</label>
+                                <div class="row m-0">
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_hand_to_hand" id="is_hand_to_hand1" value="{{\App\Classes\Enums\StatusEnum::Active}}" checked>
+                                        <label class="form-check-label" for="is_hand_to_hand1">Active</label>
+                                    </div>
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_hand_to_hand" id="is_hand_to_hand2" value="{{\App\Classes\Enums\StatusEnum::Inactive}}">
+                                        <label class="form-check-label" for="is_hand_to_hand2">Inactive</label>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Shipping to Buyers</label>
+                                <div class="row m-0">
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_shipping_to_buyer" id="is_shipping_to_buyer1" value="{{\App\Classes\Enums\StatusEnum::Active}}" checked>
+                                        <label class="form-check-label" for="is_shipping_to_buyer1">Active</label>
+                                    </div>
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="is_shipping_to_buyer" id="is_shipping_to_buyer2" value="{{\App\Classes\Enums\StatusEnum::Inactive}}">
+                                        <label class="form-check-label" for="is_shipping_to_buyer2">Inactive</label>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Address</label>
                                 <div>
-                                    <input type="text" name="auctiondate" class="form-control input-lg" placeholder="Enter Latitude and Longitude" required>
+                                    <input type="text" name="address" class="form-control input-lg" placeholder="Enter Address" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Offer Image</label>
                                 <div>
-                                    <input type="file" name="model_image" class="form-control input-lg" required>
+                                    <input type="file" name="offer_image[]" class="form-control input-lg" multiple="multiple" required>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Offer Status</label>
@@ -127,48 +185,48 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         {{--Edit Modal--}}
-        <div id="ModalEdit" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Edit Offer Name</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form id="categoryFormEdit" method="POST" action="" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="category_id" id="category_id">
-                            <div class="form-group">
-                                <label class="control-label">Enter Offer Name</label>
-                                <div>
-                                    <input type="text" name="category" id="category" placeholder="Enter Category Name"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-                                <label class="control-label">Offer Image</label>
-                                <div>
-                                    <input type="file" name="category_image" id="category_image" class="form-control input-lg" required>
-                                </div>
-                                <br>
-                                <label class="control-label">Select Offer Status</label>
-                                <div>
-                                        <select id="cat_status" class="form-control" name="cat_status" style="width: 100%; height:100%;" tabindex="-1" aria-hidden="true" required>
-                                            <option selected="selected" name="" id="0" >--Select Status--</option>
-                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}">Enable</option>
-                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}" data-id="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>
-                                    </select>
-                                </div>
-                            </div>
+{{--        <div id="ModalEdit" class="modal fade">--}}
+{{--            <div class="modal-dialog" role="document">--}}
+{{--                <div class="modal-content">--}}
+{{--                    <div class="modal-header">--}}
+{{--                        <h1 class="modal-title">Edit Offer Name</h1>--}}
+{{--                    </div>--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <form id="categoryFormEdit" method="POST" action="" enctype="multipart/form-data">--}}
+{{--                            @csrf--}}
+{{--                            <input type="hidden" name="category_id" id="category_id">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="control-label">Enter Offer Name</label>--}}
+{{--                                <div>--}}
+{{--                                    <input type="text" name="category" id="category" placeholder="Enter Category Name"--}}
+{{--                                           class="form-control input-lg" required>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
+{{--                                <label class="control-label">Offer Image</label>--}}
+{{--                                <div>--}}
+{{--                                    <input type="file" name="category_image" id="category_image" class="form-control input-lg" required>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
+{{--                                <label class="control-label">Select Offer Status</label>--}}
+{{--                                <div>--}}
+{{--                                        <select id="cat_status" class="form-control" name="cat_status" style="width: 100%; height:100%;" tabindex="-1" aria-hidden="true" required>--}}
+{{--                                            <option selected="selected" name="" id="0" >--Select Status--</option>--}}
+{{--                                        <option value="{{\App\Classes\Enums\StatusEnum::Active}}" data-id="{{\App\Classes\Enums\StatusEnum::Active}}">Enable</option>--}}
+{{--                                        <option value="{{\App\Classes\Enums\StatusEnum::Inactive}}" data-id="{{\App\Classes\Enums\StatusEnum::Inactive}}">Disable</option>--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
 
-                            <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Update Offer</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+{{--                            <div class="form-group">--}}
+{{--                                <div>--}}
+{{--                                    <button type="submit" class="btn btn-success">Update Offer</button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    </div>--}}
+{{--                </div><!-- /.modal-content -->--}}
+{{--            </div><!-- /.modal-dialog -->--}}
+{{--        </div><!-- /.modal -->--}}
         <div class="tab-content">
 
             {{--All Datatable--}}
@@ -201,7 +259,8 @@
                         <td>{{$offer->title}}</td>
                         <td>{{$offer->title}}</td>
                         <td><span class="{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
-                        <td><a href="" class="btn btn-primary btn-sm" id="modelEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$offer->id}}">Edit</a>
+                        <td>
+{{--                            <a href="" class="btn btn-primary btn-sm" id="modelEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$offer->id}}">Edit</a>--}}
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$offer->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                     </tr>
@@ -255,11 +314,74 @@
             var a = $(this).data('id');
             $('.user-delete').val(a);
         });
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            let latitude = position.coords.latitude;
+            let longitude = position.coords.longitude;
+            document.getElementById("lat").value = latitude;
+            document.getElementById("long").value = longitude;
+        }
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            getLocation();
+            this.submit();
+        });
+
+
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#categoryTable').DataTable();
         });
+
+        $('#categoryid').on('change', function() {
+            var category_id = $(this).val();
+            if(category_id) {
+                $.ajax({
+                    url: '/admin/get-brands/'+category_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#brandid').empty();
+                        $.each(data, function(key, value) {
+                            $('#brandid').append('<option value="'+value.id+'">'+value.title+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#brandid').empty();
+            }
+        });
+
+        $('#brandid').on('change', function() {
+            var brand_id = $(this).val();
+            if(brand_id) {
+                $.ajax({
+                    url: '/admin/get-models/'+brand_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#modelid').empty();
+                        $.each(data, function(key, value) {
+                            $('#modelid').append('<option value="'+value.id+'">'+value.title+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#modelid').empty();
+            }
+        });
+
+
         $('body').on('click', '#categoryEdit', function () {
             var category_id = $(this).data('id');
             $.ajax({
