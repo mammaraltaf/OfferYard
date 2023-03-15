@@ -159,6 +159,28 @@
                                     <input type="file" name="offer_image[]" class="form-control input-lg" multiple="multiple" required>
                                 </div>
                                 <br>
+
+                                <label class="control-label">Offer Item</label>
+                                <div class="row m-0">
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="offerItem" id="offerItem1" value="{{\App\Classes\Enums\OfferTypesEnum::OfferPrice}}" checked>
+                                        <label class="form-check-label" for="offerItem1">{{\App\Classes\Enums\OfferTypesEnum::OfferPrice}}</label>
+                                    </div>
+
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="offerItem" id="offerItem2" value="{{\App\Classes\Enums\OfferTypesEnum::OfferAuction}}" checked>
+                                        <label class="form-check-label" for="offerItem2">{{\App\Classes\Enums\OfferTypesEnum::OfferAuction}}</label>
+                                    </div>
+
+                                    <div class="form-check" style="width:auto;">
+                                        <input class="form-check-input" type="radio" name="offerItem" id="offerItem3" value="{{\App\Classes\Enums\OfferTypesEnum::OfferFree}}">
+                                        <label class="form-check-label" for="offerItem3">{{\App\Classes\Enums\OfferTypesEnum::OfferFree}}</label>
+                                    </div>
+                                </div>
+                                <br>
+
+
+                                <br>
                                 <label class="control-label">Select Offer Status</label>
                                 <div>
                                     <select class="form-select" name="status" id="status" aria-label="Default select example">
@@ -230,19 +252,23 @@
         <div class="tab-content">
 
             {{--All Datatable--}}
-            <table id="categoryTable" name="categoryTable" class="table table-striped table-bordered dt-responsive nowrap allTable" style="width:100%">
+            <table id="categoryTable" name="categoryTable"  class="table table-striped table-bordered dt-responsive nowrap allTable" style=" width:100%">
                 <thead>
                 <tr>
                     <th>Title</th>
                     <th>Category</th>
                     <th>Brand</th>
                     <th>Model</th>
+                    <th>Purchase Year</th>
                     <th>Price</th>
                     <th>Auction Date</th>
+                    <th>Price Fixed</th>
                     <th>Comment</th>
-                    <th>Lat & Lon</th>
-                    <th>Pic</th>
-                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Hand to Hand</th>
+                    <th>Shipping to Buyer</th>
+                    <th>Address</th>
+                    <th>Offer Item</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -250,14 +276,18 @@
                 @foreach($offers as $offer)
                     <tr>
                         <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
-                        <td>{{$offer->title}}</td>
+                        <td>{{$offer->category->title}}</td>
+                        <td>{{$offer->brand->title}}</td>
+                        <td>{{$offer->moddel->title}}</td>
+                        <td>{{$offer->purchaseYear->year}}</td>
+                        <td>{{$offer->price}}</td>
+                        <td>{{$offer->is_price_fixed}}</td>
+                        <td>{{$offer->is_activate_comment_section}}</td>
+                        <td>{{$offer->is_show_location_product}}</td>
+                        <td>{{$offer->is_hand_to_hand}}</td>
+                        <td>{{$offer->is_shipping_to_buyer}}</td>
+                        <td>{{$offer->address}}</td>
+                        <td>{{$offer->offer_item}}</td>
                         <td><span class="{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
                         <td>
 {{--                            <a href="" class="btn btn-primary btn-sm" id="modelEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$offer->id}}">Edit</a>--}}
@@ -272,12 +302,16 @@
                     <th>Category</th>
                     <th>Brand</th>
                     <th>Model</th>
+                    <th>Purchase Year</th>
                     <th>Price</th>
                     <th>Auction Date</th>
+                    <th>Price Fixed</th>
                     <th>Comment</th>
-                    <th>Lat & Lon</th>
-                    <th>Pic</th>
-                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Hand to Hand</th>
+                    <th>Shipping to Buyer</th>
+                    <th>Address</th>
+                    <th>Offer Item</th>
                     <th>Action</th>
                 </tr>
                 </tfoot>
@@ -340,7 +374,7 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#categoryTable').DataTable();
+            $('#categoryTable').DataTable({ responsive: true });
         });
 
         $('#categoryid').on('change', function() {

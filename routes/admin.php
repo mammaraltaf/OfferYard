@@ -60,6 +60,13 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['auth', 'ad
     Route::get('/edit-offer/{id}', [AdminController::class,'editOffer'])->name('editOffer');
     Route::post('/edit-offer/{id}', [AdminController::class,'updateOffer'])->name('updateOffer');
     Route::post('/delete-offer',[AdminController::class, 'destroyOffer'])->name('destroyOffer');
+
+
+    Route::get('/email-templates', [AdminController::class, 'emailTemplates'])->name('emailTemplates');
+    Route::post('/add-email-template',[AdminController::class, 'emailTemplatePost'])->name('emailTemplatePost');
+    Route::get('/edit-email-template/{id}', [AdminController::class,'editEmailTemplate'])->name('editEmailTemplate');
+    Route::post('/edit-email-template/{id}', [AdminController::class,'updateEmailTemplate'])->name('updateEmailTemplate');
+    Route::post('/delete-email-template',[AdminController::class, 'destroyEmailTemplate'])->name('destroyEmailTemplate');
 });
 ?>
 

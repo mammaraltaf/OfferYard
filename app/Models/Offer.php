@@ -11,9 +11,9 @@ class Offer extends Model
 
     protected $guarded = ['id'];
 
-    public function model()
+    public function moddel()
     {
-        return $this->belongsTo(Model::class);
+        return $this->belongsTo(Moddel::class);
     }
 
     public function user()

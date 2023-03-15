@@ -6,6 +6,7 @@ use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\EmailTemplate;
 use App\Models\Moddel;
 use App\Models\OfferImage;
 use App\Models\PurchaseYear;
@@ -525,6 +526,7 @@ class AdminController extends Controller
                 'is_shipping_to_buyer' => 'required',
                 'is_show_location_product' => 'required',
                 'address' => 'required',
+                'offerItem' => 'required',
                 'status' => 'required',
                 'offer_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
@@ -540,13 +542,14 @@ class AdminController extends Controller
                 'moddel_id' => $input['moddel'],
                 'purchase_year_id' => $input['purchase_year'],
                 'price' => $input['price'],
-                'auction_date' => $input['auction_date'],
-                'isPriceFixed' => $input['isPriceFixed'],
-                'activeCommentSection' => $input['activeCommentSection'],
+                'auction_end_number_of_days' => $input['auction_date'],
+                'is_price_fixed' => $input['isPriceFixed'],
+                'is_activate_comment_section' => $input['activeCommentSection'],
                 'is_hand_to_hand' => $input['is_hand_to_hand'],
                 'is_shipping_to_buyer' => $input['is_shipping_to_buyer'],
                 'is_show_location_product' => $input['is_show_location_product'],
                 'address' => $input['address'],
+                'offer_item' => $input['offerItem'],
                 'status' => $input['status'],
             ]);
 
@@ -570,6 +573,81 @@ class AdminController extends Controller
             return redirect()->back()->with('success', 'Offer Added Successfully');
         }
         catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    /*-------------emailTemplates-------------*/
+
+    public function emailTemplates()
+    {
+        $emailTemplates = EmailTemplate::all();
+        return view('admin.pages.emailTemplate',compact('emailTemplates'));
+    }
+
+    public function emailTemplatePost(Request $request)
+    {
+        try{
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'title' => 'required | unique:email_templates,title',
+                'email_body' => 'required',
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            EmailTemplate::create([
+                'title' => $input['title'],
+                'body' => $input['email_body'],
+            ]);
+
+            return redirect()->back()->with('success', 'Email Template Added Successfully');
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editEmailTemplate($id)
+    {
+        $emailTemplate = EmailTemplate::find($id);
+        return $emailTemplate;
+    }
+
+    public function updateEmailTemplate(Request $request)
+    {
+        try{
+            $input = $request->all();
+            $validation = \Validator::make($input, [
+                'title' => 'required | unique:email_templates,title,'.$input['email_template_id'],
+                'email_body' => 'required',
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()->withErrors($validation->errors());
+            }
+
+            EmailTemplate::where('id', $input['email_template_id'])->update([
+                'title' => $input['title'],
+                'body' => $input['email_body'],
+            ]);
+
+            return redirect()->back()->with('success', 'Email Template Updated Successfully');
+        }
+        catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function destroyEmailTemplate(Request $request)
+    {
+        try {
+            EmailTemplate::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Email Template Deleted Successfully!');
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

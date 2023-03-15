@@ -82,11 +82,11 @@
                     </div>
 
 
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}
-{{--                            <span class="menu-title">Manage Services</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed('admin.emailTemplates') ? 'active' : '' }}" href="{{route('admin.emailTemplates')}}" >
+                            <span class="menu-title">Manage Email Templates</span>
+                        </a>
+                    </div>
 
 {{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.serviceQuestions') ? 'active' : '' }}" href="{{route('admin.serviceQuestions')}}" >--}}
