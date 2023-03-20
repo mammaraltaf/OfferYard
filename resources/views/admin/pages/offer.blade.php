@@ -281,6 +281,7 @@
                         <td>{{$offer->moddel->title}}</td>
                         <td>{{$offer->purchaseYear->year}}</td>
                         <td>{{$offer->price}}</td>
+                        <td>{{$offer->auction_end_number_of_days}}</td>
                         <td>{{$offer->is_price_fixed}}</td>
                         <td>{{$offer->is_activate_comment_section}}</td>
                         <td>{{$offer->is_show_location_product}}</td>
@@ -288,9 +289,8 @@
                         <td>{{$offer->is_shipping_to_buyer}}</td>
                         <td>{{$offer->address}}</td>
                         <td>{{$offer->offer_item}}</td>
-                        <td><span class="{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
+{{--                        <td><span class="{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$offer->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>--}}
                         <td>
-{{--                            <a href="" class="btn btn-primary btn-sm" id="modelEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$offer->id}}">Edit</a>--}}
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$offer->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                     </tr>

@@ -165,7 +165,7 @@
                         <td>{{$brand->title}}</td>
                         <td>{{$brand->category->title}}</td>
                         <td><img src="{{$brand->image}}" alt="" style="height: 50px;"></td>
-                        <td><span class="{{$brand->status == 1 ? 'badge badge-success' : 'badge badge-danger'}}">{{$brand->status == 1 ? 'Enable' : 'Disable'}}</span></td>
+                        <td><span class="{{$brand->status == \App\Classes\Enums\StatusEnum::Active ? 'badge badge-success' : 'badge badge-danger'}}">{{$brand->status == \App\Classes\Enums\StatusEnum::Active ? 'Enable' : 'Disable'}}</span></td>
 
                         <td><a href="" class="btn btn-primary btn-sm" id="categoryEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$brand->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$brand->id}}"

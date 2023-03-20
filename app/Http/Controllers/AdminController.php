@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
+use App\Models\Advertising;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\EmailTemplate;
@@ -650,6 +651,14 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    /*-------------emailTemplates-------------*/
+
+    public function advertising()
+    {
+        $advertisings = Advertising::all();
+        return view('admin.pages.advertising',compact('advertisings'));
     }
 
 }

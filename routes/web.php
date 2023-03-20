@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CropImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('crop-image-upload', [CropImageController::class,'index']);
+Route::post('crop-image-upload ', [CropImageController::class,'uploadCropImage']);
 
 Route::get('/', function () {
 //    dd('asdsa');

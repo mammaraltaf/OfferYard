@@ -89,8 +89,8 @@
                     </div>
 
 {{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.serviceQuestions') ? 'active' : '' }}" href="{{route('admin.serviceQuestions')}}" >--}}
-{{--                            <span class="menu-title">Manage Service Question</span>--}}
+{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.advertising') ? 'active' : '' }}" href="{{route('admin.advertising')}}" >--}}
+{{--                            <span class="menu-title">Manage Advertising</span>--}}
 {{--                        </a>--}}
 {{--                    </div>--}}
 
